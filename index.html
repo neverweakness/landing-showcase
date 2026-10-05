@@ -94,7 +94,7 @@ const SITES=[
  {id:'fluxo-watch',n:'Fluxo Watch',d:'Умные часы, предзаказ',tags:['Продукт','3D-рендер','Тема'],
   f:['3D-рендеры часов из Blender в 4 цветах','Вращение по ракурсам и смена цвета ремешка','Светлая и тёмная тема','Форма предзаказа']}];
 const grid=document.getElementById('grid'),bar=document.getElementById('bar');
-grid.innerHTML=SITES.map((s,i)=>`<article class="card" data-tags="${s.tags.join('|')}">
+grid.innerHTML=SITES.map((s,i)=>`<article class="card" data-cat="${s.tags[0]}">
   <a class="shot" href="${s.id}/" aria-label="Открыть демо ${s.n}"><img loading="lazy" src="previews/${s.id}.jpg" alt="Превью ${s.n}" width="960" height="600"><span class="open">Открыть демо →</span></a>
   <div class="body"><span class="num">${String(i+1).padStart(2,'0')}</span><h2>${s.n}</h2><p>${s.d}</p>
   <div class="tags">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>
@@ -102,11 +102,11 @@ grid.innerHTML=SITES.map((s,i)=>`<article class="card" data-tags="${s.tags.join(
   <div class="links"><a href="${s.id}/">Открыть демо</a><a href="https://github.com/neverweakness/landing-showcase/tree/main/${s.id}" target="_blank" rel="noopener">Код</a></div></div></article>`).join('')
  +`<div class="soon"><div><b>Скоро ещё</b><p style="margin:6px 0 0">Репозиторий пополняется новыми работами.</p></div></div>`;
 document.getElementById('n').textContent=SITES.length;
-const all=['Все',...new Set(SITES.flatMap(s=>s.tags))];
+const all=['Все',...new Set(SITES.map(s=>s.tags[0]))];
 bar.innerHTML=all.map((t,i)=>`<button class="chip" aria-pressed="${i==0}" data-t="${t}">${t}</button>`).join('');
 bar.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
   [...bar.children].forEach(c=>c.setAttribute('aria-pressed',c==b));
-  grid.querySelectorAll('.card').forEach(c=>c.hidden=!(b.dataset.t=='Все'||c.dataset.tags.split('|').includes(b.dataset.t)));
+  grid.querySelectorAll('.card').forEach(c=>c.hidden=!(b.dataset.t=='Все'||c.dataset.cat==b.dataset.t));
   grid.querySelector('.soon').hidden=b.dataset.t!='Все'});
 </script>
 </body>
