@@ -1,0 +1,188 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluxo Watch: умные часы, которые понимают ваш день</title>
+<meta name="description" content="Fluxo Watch: AMOLED-экран, ЭКГ, 14 дней без зарядки. Предзаказ. Демо-лендинг.">
+<style>
+:root{--c:#7c5cff;--c2:#22d3ee;--bg:#f6f6fa;--ink:#12121a;--mute:#64647a;--card:#fff;--line:#e4e4ee;--ease:cubic-bezier(.2,.8,.2,1)}
+[data-theme=dark]{--bg:#0b0b12;--ink:#f3f3fb;--mute:#9a9ab2;--card:#15151f;--line:#262636}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Inter,system-ui,sans-serif;line-height:1.5;transition:background .4s,color .4s;overflow-x:hidden}
+h1,h2,h3,p{margin:0}a{color:inherit;text-decoration:none}button,input{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.grad{background:linear-gradient(100deg,var(--c),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent;transition:.4s}
+
+header{position:fixed;top:0;left:0;right:0;z-index:40;backdrop-filter:blur(16px) saturate(1.4);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;height:56px;gap:24px}
+.logo{font-weight:800;letter-spacing:-.03em;font-size:19px;margin-right:auto}
+.bar a.l{font-size:14px;color:var(--mute)}.bar a.l:hover{color:var(--ink)}
+.tg{width:42px;height:26px;border-radius:99px;border:0;background:var(--line);position:relative;cursor:pointer}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--ink);transition:transform .3s var(--ease)}
+[data-theme=dark] .tg::after{transform:translateX(16px)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:99px;border:0;cursor:pointer;font-weight:700;color:#fff;background:linear-gradient(120deg,var(--c),var(--c2));
+  box-shadow:0 14px 34px color-mix(in srgb,var(--c) 40%,transparent);transition:transform .25s var(--ease)}
+.btn:hover{transform:translateY(-3px) scale(1.02)}.btn.sm{padding:9px 18px;font-size:14px}.btn.o{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+
+/* Часы: SVG + мягкое свечение, цвет ремешка берётся из CSS-переменных */
+.prod{position:relative;width:min(380px,74vw);aspect-ratio:900/1200;margin-inline:auto}
+.glow{position:absolute;inset:10% -10%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--c) 50%,transparent),transparent 65%);filter:blur(40px);transition:.4s}
+.stage{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .12s linear;animation:fl 6s ease-in-out infinite}
+@keyframes fl{50%{translate:0 -12px}}
+.prod img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 34px 36px rgba(0,0,0,.30));transition:opacity .35s}.fr{opacity:0}.fr[data-y="0"]{opacity:1}
+.sh{position:absolute;left:12%;right:12%;bottom:-6%;height:6%;background:radial-gradient(ellipse,rgba(0,0,0,.35),transparent 70%);filter:blur(6px)}
+
+.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:96px 0 50px}
+.pill{display:inline-block;padding:7px 16px;border-radius:99px;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;transition:.4s}
+h1{font-size:clamp(42px,7vw,98px);line-height:.96;letter-spacing:-.05em;font-weight:800;max-width:14ch;margin-inline:auto}
+.hero p.lead{font-size:clamp(17px,1.7vw,22px);color:var(--mute);max-width:46ch;margin:18px auto 22px}
+.sw{display:flex;gap:12px;justify-content:center;margin:24px 0 8px}
+.sw button{width:34px;height:34px;border-radius:50%;border:3px solid var(--bg);cursor:pointer;box-shadow:0 0 0 2px var(--line);transition:transform .25s var(--ease),box-shadow .25s}
+.sw button:hover{transform:scale(1.12)}.sw button.on{box-shadow:0 0 0 3px var(--ink)}
+.cn{color:var(--mute);font-size:14px;margin-bottom:22px}
+
+.scene{height:330vh;position:relative}
+.sticky{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(20px,5vw,80px);padding:56px clamp(16px,4vw,40px) 0;max-width:1180px;margin-inline:auto}
+.caps{position:relative;height:300px}
+.cap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(30px);transition:opacity .5s,transform .5s var(--ease)}
+.cap.on{opacity:1;transform:none}
+.cap h2{font-size:clamp(32px,4.6vw,62px);letter-spacing:-.04em;line-height:1.02}.cap p{color:var(--mute);font-size:19px;max-width:38ch;margin-top:14px}
+.cap b.n{font-size:13px;letter-spacing:.2em;color:var(--c);text-transform:uppercase;margin-bottom:12px;display:block}
+.prog{display:flex;gap:6px;position:absolute;left:0;right:0;bottom:-34px}.prog i{height:5px;flex:1;border-radius:5px;background:var(--line);overflow:hidden;position:relative}
+.prog i::after{content:"";position:absolute;inset:0;background:var(--c);transform:scaleX(var(--f,0));transform-origin:left}
+
+.bat{background:var(--card);border:1px solid var(--line);border-radius:34px;padding:clamp(24px,4vw,56px);display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,5vw,70px);align-items:center}
+.bat h2{font-size:clamp(30px,4vw,54px);letter-spacing:-.04em;line-height:1.05}
+.hours{font-size:clamp(60px,9vw,128px);font-weight:800;letter-spacing:-.06em;line-height:1}
+.hours small{font-size:.26em;letter-spacing:0;color:var(--mute);font-weight:600}
+input[type=range]{width:100%;accent-color:var(--c);height:6px;margin:24px 0 8px}
+.meter{height:14px;border-radius:99px;background:var(--line);overflow:hidden}.meter i{display:block;height:100%;width:var(--w,50%);background:linear-gradient(90deg,var(--c),var(--c2));border-radius:99px;transition:width .3s}
+.lab{display:flex;justify-content:space-between;color:var(--mute);font-size:13px;margin-top:8px}
+
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.cd{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:28px;position:relative;transition:transform .3s var(--ease),border-color .3s}
+.cd:hover{transform:translateY(-6px)}.cd.hot{border-color:var(--c);box-shadow:0 20px 50px color-mix(in srgb,var(--c) 22%,transparent)}
+.cd h3{font-size:24px}.cd .p{font-size:40px;font-weight:800;letter-spacing:-.04em;margin:10px 0}
+.cd ul{list-style:none;padding:0;margin:0 0 22px;color:var(--mute)}.cd li{padding:7px 0;border-bottom:1px dashed var(--line)}
+.cd .tag{position:absolute;top:-12px;right:22px;background:var(--c);color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:99px}
+
+.sec{padding:clamp(70px,9vw,120px) 0}.sec h2.t{font-size:clamp(32px,4.6vw,62px);letter-spacing:-.04em;line-height:1.02}.sec .sub{color:var(--mute);font-size:19px;max-width:50ch;margin-top:12px}
+.pre{text-align:center;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 18%,var(--card)),var(--card));border:1px solid var(--line);border-radius:38px;padding:clamp(36px,6vw,80px)}
+.cdn{display:flex;gap:12px;justify-content:center;margin:26px 0}
+.cdn div{min-width:84px;padding:14px;border-radius:20px;background:var(--card);border:1px solid var(--line)}.cdn b{display:block;font-size:34px;letter-spacing:-.03em}.cdn small{color:var(--mute)}
+dialog{border:1px solid var(--line);border-radius:28px;padding:30px;max-width:440px;width:92%;background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(5,5,15,.6);backdrop-filter:blur(6px)}
+dialog input.t{width:100%;padding:14px;border-radius:14px;border:2px solid var(--line);background:transparent;margin-top:10px}
+footer{padding:36px 0 50px;color:var(--mute);font-size:14px;text-align:center}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s,transform .8s var(--ease)}.rv.in{opacity:1;transform:none}
+@media(max-width:860px){.sticky,.bat{grid-template-columns:1fr}.sticky{gap:0;align-content:center}.caps{height:220px;order:2}.cmp{grid-template-columns:1fr}.bar a.l{display:none}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}.stage{animation:none}.cap{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="logo" href="#">Fluxo<span class="grad">Watch</span></a>
+  <a class="l" href="#scene">Возможности</a><a class="l" href="#bat">Батарея</a><a class="l" href="#cmp">Модели</a>
+  <button class="tg" id="tg" aria-label="Тёмная тема"></button>
+  <a class="btn sm" href="#pre">Предзаказ</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <span class="pill rv" id="pill">Новинка · цвет: Фиолетовый</span>
+  <h1 class="rv">Часы, которые <span class="grad">понимают</span> ваш день</h1>
+  <p class="lead rv">AMOLED-экран, ЭКГ и 14 дней без зарядки. Минимум настроек, максимум пользы.</p>
+  <div class="prod rv"><div class="glow"></div><div class="stage"><img id="hw" src="assets/watch_purple_0.webp" alt="Fluxo Watch"></div><div class="sh"></div></div>
+  <div class="sw" id="sw">
+    <button class="on" data-k="purple" style="background:#7c5cff" data-c="#7c5cff" data-c2="#22d3ee" data-n="Фиолетовый" aria-label="Фиолетовый"></button>
+    <button data-k="emerald" style="background:#10b981" data-c="#10b981" data-c2="#a3e635" data-n="Изумрудный" aria-label="Изумрудный"></button>
+    <button data-k="coral" style="background:#f43f5e" data-c="#f43f5e" data-c2="#fb923c" data-n="Коралловый" aria-label="Коралловый"></button>
+    <button data-k="graphite" style="background:#334155" data-c="#3b82f6" data-c2="#22d3ee" data-n="Графитовый" aria-label="Графитовый"></button>
+  </div>
+  <div class="cn" id="cn">Нажмите на цвет: ремешок и вся страница подстроятся</div>
+  <a class="btn" href="#pre">Предзаказ за 14 990 ₽</a>
+</div></section>
+
+<section class="scene" id="scene"><div class="sticky">
+  <div class="caps" id="caps">
+    <div class="cap on"><b class="n">01 · Экран</b><h2>AMOLED, который виден <span class="grad">на солнце</span></h2><p>Яркость до 2000 нит и защитное сапфировое стекло. Читается при любом освещении.</p></div>
+    <div class="cap"><b class="n">02 · Здоровье</b><h2>ЭКГ и пульс <span class="grad">без лишних шагов</span></h2><p>Измерения в фоне, понятные тренды за неделю и мягкие напоминания, когда пора отдохнуть.</p></div>
+    <div class="cap"><b class="n">03 · Батарея</b><h2>14 дней <span class="grad">без зарядки</span></h2><p>Зарядили в понедельник: забыли про провод на две недели. Быстрая зарядка за 45 минут.</p></div>
+    <div class="prog" id="prog"><i></i><i></i><i></i></div>
+  </div>
+  <div class="prod"><div class="glow"></div><div class="stage" id="stage" style="animation:none"><img class="fr" data-y="-30" src="assets/watch_purple_-30.webp" alt="Fluxo Watch, ракурс -30°"><img class="fr" data-y="-15" src="assets/watch_purple_-15.webp" alt="Fluxo Watch, ракурс -15°"><img class="fr" data-y="0" src="assets/watch_purple_0.webp" alt="Fluxo Watch, ракурс 0°"><img class="fr" data-y="15" src="assets/watch_purple_15.webp" alt="Fluxo Watch, ракурс 15°"><img class="fr" data-y="30" src="assets/watch_purple_30.webp" alt="Fluxo Watch, ракурс 30°"></div></div>
+</div></section>
+
+<section class="sec" id="bat"><div class="wrap">
+  <div class="bat rv">
+    <div><h2>Сколько вы смотрите на экран?</h2><p class="sub" style="margin-top:10px">Двигайте ползунок: покажем, как часто придётся заряжать.</p>
+      <input type="range" id="rg" min="1" max="12" value="3" aria-label="Часов экрана в день"><div class="lab"><span>1 ч</span><span id="rvv">3 ч в день</span><span>12 ч</span></div></div>
+    <div><div class="hours"><span id="days">9</span><small> дней без зарядки</small></div><div class="meter" style="margin-top:18px"><i id="mt"></i></div><p class="sub" style="margin-top:12px;font-size:16px">Оценка при постоянном пульсометре. Режим «Эконом» даёт больше.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="cmp"><div class="wrap">
+  <h2 class="t rv">Выберите <span class="grad">свои</span> Fluxo</h2><p class="sub rv">Три модели под разные сценарии.</p>
+  <div class="cmp">
+    <div class="cd rv"><h3>Fluxo Lite</h3><div class="p">9 990 ₽</div><ul><li>Экран 1,4″</li><li>До 10 дней</li><li>Пульс и сон</li></ul><button class="btn o" data-m="Fluxo Lite|9990" style="width:100%">Выбрать</button></div>
+    <div class="cd hot rv"><span class="tag">Хит</span><h3>Fluxo Watch</h3><div class="p">14 990 ₽</div><ul><li>Экран 1,6″ AMOLED</li><li>До 14 дней</li><li>ЭКГ и SpO₂</li></ul><button class="btn" data-m="Fluxo Watch|14990" style="width:100%">Предзаказ</button></div>
+    <div class="cd rv"><h3>Fluxo Ultra</h3><div class="p">24 990 ₽</div><ul><li>Титан и сапфир</li><li>До 21 дня</li><li>GPS и карты</li></ul><button class="btn o" data-m="Fluxo Ultra|24990" style="width:100%">Выбрать</button></div>
+  </div>
+</div></section>
+
+<section class="sec" id="pre"><div class="wrap"><div class="pre rv">
+  <h2 class="t">Предзаказ <span class="grad">открыт</span></h2><p class="sub" style="margin-inline:auto">Первые 500 покупателей получают второй ремешок в подарок. До конца акции:</p>
+  <div class="cdn"><div><b id="h">00</b><small>часов</small></div><div><b id="m">00</b><small>минут</small></div><div><b id="s">00</b><small>секунд</small></div></div>
+  <button class="btn" data-m="Fluxo Watch|14990">Оформить предзаказ</button></div></div></section>
+
+<footer>© 2026 Fluxo. Демо-проект (концепт лендинга для портфолио): бренд, продукт и цены вымышлены.</footer>
+
+<dialog id="dlg"><h3 id="mt2" style="font-size:26px;margin:0">Предзаказ</h3><p id="ms" style="color:var(--mute);margin:4px 0 0"></p>
+  <form id="f"><input class="t" name="name" placeholder="Имя" required><input class="t" name="phone" placeholder="Телефон или e-mail" required>
+  <button class="btn" style="width:100%;margin-top:14px" type="submit">Отправить</button></form>
+  <p id="ok" style="display:none;margin-top:14px;text-align:center">✅ Заказ принят! Пришлём подтверждение и ссылку на оплату.</p>
+  <p style="font-size:12px;color:var(--mute);margin-top:12px">Демо-окно. Оплата подключается через кассу (ЮKassa, CloudPayments) по API.</p></dialog>
+
+<script>
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+const root=document.documentElement;
+document.getElementById('tg').onclick=()=>root.dataset.theme=root.dataset.theme=='dark'?'':'dark';
+/* цвет ремешка и акцентов: меняются CSS-переменные, SVG и вся страница подстраиваются */
+document.querySelectorAll('#sw button').forEach(b=>b.onclick=()=>{
+  root.style.setProperty('--c',b.dataset.c);root.style.setProperty('--c2',b.dataset.c2);
+  document.querySelectorAll('#sw button').forEach(x=>x.classList.toggle('on',x==b));
+  document.getElementById('pill').textContent='Новинка · цвет: '+b.dataset.n;cn.textContent='Цвет: '+b.dataset.n;setColor(b.dataset.k)});
+
+/* смена цвета: подменяем рендеры в герое и в сцене */
+let cur='purple';
+const frs=[...document.querySelectorAll('.fr')];
+function setColor(k){cur=k;document.getElementById('hw').src='assets/watch_'+k+'_0.webp';frs.forEach(i=>i.src='assets/watch_'+k+'_'+i.dataset.y+'.webp')}
+/* сцена по скроллу */
+const scene=document.getElementById('scene'),caps=[...document.querySelectorAll('.cap')],pr=[...document.querySelectorAll('#prog i')];
+function onScroll(){const r=scene.getBoundingClientRect(),total=r.height-innerHeight,p=Math.min(1,Math.max(0,-r.top/total));
+  const idx=Math.min(2,Math.floor(p*3));caps.forEach((c,i)=>c.classList.toggle('on',i==idx));
+  pr.forEach((b,i)=>b.style.setProperty('--f',Math.min(1,Math.max(0,p*3-i))));
+  const pos=p*(frs.length-1),i0=Math.min(frs.length-2,Math.floor(pos)),f=pos-i0;
+  frs.forEach((im,i)=>im.style.opacity=i==i0?1-f:(i==i0+1?f:0))}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+/* батарея */
+const rg=document.getElementById('rg');
+function bat(){const h=+rg.value;document.getElementById('rvv').textContent=h+' ч в день';
+  const d=Math.max(3,Math.round(18/(0.7+h*0.35)));document.getElementById('days').textContent=d;
+  document.getElementById('mt').style.setProperty('--w',Math.min(100,d/14*100)+'%')}
+rg.addEventListener('input',bat);bat();
+/* обратный отсчёт */
+const end=Date.now()+1000*60*60*71+1000*60*17;
+setInterval(()=>{const d=Math.max(0,end-Date.now()),p=n=>String(n).padStart(2,'0');
+  h.textContent=p(Math.floor(d/36e5));m.textContent=p(Math.floor(d%36e5/6e4));s.textContent=p(Math.floor(d%6e4/1e3))},1000);
+/* предзаказ */
+const dlg=document.getElementById('dlg');
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{const [n,p]=b.dataset.m.split('|');mt2.textContent='Предзаказ: '+n;ms.textContent='Цена: '+(+p).toLocaleString('ru-RU')+' ₽';ok.style.display='none';f.style.display='';dlg.showModal()});
+f.addEventListener('submit',e=>{e.preventDefault();console.log('preorder',Object.fromEntries(new FormData(f)));/* Здесь отправка в CRM / Telegram / создание платежа */f.style.display='none';ok.style.display='block'});
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+</script>
+</body>
+</html>
+

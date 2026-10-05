@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing Showcase: демо-лендинги, которые можно потрогать</title>
+<meta name="description" content="Подборка демо-лендингов: современная вёрстка, анимации, калькуляторы, формы записи и бронирования. Всё работает, нажимайте.">
+<meta property="og:title" content="Landing Showcase">
+<meta property="og:description" content="Демо-лендинги с рабочими формами, калькуляторами и анимациями.">
+<meta property="og:image" content="previews/skyline-residence.jpg">
+<style>
+:root{color-scheme:light dark;--bg:#f5f6f9;--card:#fff;--text:#14171f;--muted:#5b6370;--accent:#4f46e5;--accent2:#0ea5e9;--border:#e3e6ec;--shadow:0 20px 50px rgba(20,23,31,.10)}
+@media (prefers-color-scheme:dark){:root{--bg:#0c0f16;--card:#141925;--text:#eef1f7;--muted:#9aa3b5;--accent:#8b87ff;--accent2:#38bdf8;--border:#242b3b;--shadow:0 20px 50px rgba(0,0,0,.45)}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+.hero{padding:clamp(48px,9vw,110px) 0 36px;background:radial-gradient(700px 360px at 85% -10%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),radial-gradient(600px 300px at 0% 10%,color-mix(in srgb,var(--accent2) 16%,transparent),transparent 70%)}
+.eyebrow{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:600;color:var(--muted)}
+h1{margin:18px 0 12px;font-size:clamp(34px,6vw,64px);line-height:1.04;letter-spacing:-.03em;max-width:16ch}
+h1 span{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:60ch;color:var(--muted);font-size:clamp(16px,1.6vw,19px)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:700;border:1px solid var(--border);background:var(--card);transition:transform .2s,border-color .2s,background .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.btn.pri{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent}
+.stats{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;color:var(--muted);font-size:14px}.stats b{display:block;color:var(--text);font-size:24px;letter-spacing:-.02em}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:34px 0 20px}
+.chip{padding:9px 16px;border-radius:999px;border:1px solid var(--border);background:var(--card);cursor:pointer;font:inherit;font-weight:600;color:var(--muted);transition:.2s}
+.chip:hover{color:var(--text)}.chip[aria-pressed=true]{background:var(--text);color:var(--bg);border-color:transparent}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:22px;padding-bottom:40px}
+.card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:22px;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+.card:hover{transform:translateY(-6px);box-shadow:var(--shadow);border-color:color-mix(in srgb,var(--accent) 55%,var(--border))}
+.card[hidden]{display:none}
+.shot{position:relative;aspect-ratio:16/10;overflow:hidden;background:#0002}
+.shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+.card:hover .shot img{transform:scale(1.04)}
+.shot .open{position:absolute;inset:auto 14px 14px auto;padding:9px 16px;border-radius:999px;background:rgba(10,12,20,.78);color:#fff;font-weight:700;font-size:14px;backdrop-filter:blur(8px);opacity:0;transform:translateY(8px);transition:.25s}
+.card:hover .open,.card:focus-within .open{opacity:1;transform:none}
+.body{display:flex;flex-direction:column;gap:10px;padding:20px 22px 22px;flex:1}
+.num{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--accent);text-transform:uppercase}
+.body h2{margin:0;font-size:22px;letter-spacing:-.01em}
+.body p{margin:0;color:var(--muted);font-size:15px}
+.tags{display:flex;gap:6px;flex-wrap:wrap}.tags span{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);font-size:12px;font-weight:700}
+ul.feat{margin:2px 0 0;padding:0;list-style:none;display:grid;gap:5px;font-size:14px;color:var(--muted)}
+ul.feat li::before{content:"✓";color:var(--accent2);font-weight:800;margin-right:8px}
+.links{display:flex;gap:10px;margin-top:auto;padding-top:14px}
+.links a{flex:1;text-align:center;padding:11px;border-radius:12px;font-weight:700;border:1px solid var(--border);transition:.2s}
+.links a:first-child{background:var(--text);color:var(--bg);border-color:transparent}
+.links a:hover{transform:translateY(-2px)}
+.soon[hidden]{display:none}
+.soon{display:flex;align-items:center;justify-content:center;text-align:center;min-height:240px;border:2px dashed var(--border);border-radius:22px;color:var(--muted);padding:24px}
+.how{padding:30px 0 70px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.how div{padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--card)}.how b{display:block;margin-bottom:6px}.how p{margin:0;color:var(--muted);font-size:15px}
+footer{border-top:1px solid var(--border);padding:28px 0 48px;color:var(--muted);font-size:14px}
+footer a{color:var(--accent);font-weight:600}
+@media(max-width:760px){.how{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <span class="eyebrow">Портфолио · веб-разработка</span>
+  <h1>Лендинги, которые можно <span>потрогать</span></h1>
+  <p class="lead">Демо-проекты с рабочими калькуляторами, формами записи и бронирования, анимациями и адаптивной вёрсткой. Откройте любой и нажимайте: всё интерактивно. Бренды, цены и тексты вымышлены.</p>
+  <div class="cta"><a class="btn pri" href="#demo">Смотреть демо ↓</a><a class="btn" href="https://kwork.ru/user/neverhoodsky" target="_blank" rel="noopener">Заказать на Kwork</a><a class="btn" href="https://github.com/neverweakness" target="_blank" rel="noopener">GitHub</a></div>
+  <div class="stats"><div><b id="n">5</b>демо-лендингов</div><div><b>0</b>зависимостей и сборщиков</div><div><b>1 файл</b>на каждый сайт</div></div>
+</div></header>
+
+<main class="wrap" id="demo">
+  <div class="bar" id="bar" role="group" aria-label="Фильтр по теме"></div>
+  <div class="grid" id="grid"></div>
+  <section class="how" aria-label="Как это сделано">
+    <div><b>Чистый HTML, CSS и JS</b><p>Без фреймворков и сборки: открывается двойным щелчком, быстро грузится, легко передать заказчику.</p></div>
+    <div><b>Современный CSS</b><p>Каскадные слои, <code>:has()</code>, контейнерные запросы, scroll-snap, <code>&lt;dialog&gt;</code>, анимации с учётом <code>prefers-reduced-motion</code>.</p></div>
+    <div><b>Под ваш бизнес</b><p>Формы подключаются к Telegram, CRM или почте, оплата через ЮKassa и CloudPayments по их официальным API.</p></div>
+  </section>
+</main>
+
+<footer><div class="wrap">Демо-проекты для портфолио: названия, цены, адреса и отзывы вымышлены. Исходники лежат в <a href="https://github.com/neverweakness/landing-showcase" target="_blank" rel="noopener">репозитории</a>, там же будут появляться новые работы.</div></footer>
+
+<script>
+/* Чтобы добавить новый лендинг: положите папку рядом, превью в previews/, и допишите объект сюда */
+const SITES=[
+ {id:'skyline-residence',n:'Skyline Residence',d:'Жилой комплекс бизнес-класса',tags:['Недвижимость','Калькулятор','Бронирование'],
+  f:['Сумеречный город в SVG с параллаксом','Планировки квартир, фильтры и сортировка','Вид с этажа: этаж и время суток меняют сцену','Ипотечный калькулятор и бронирование с маской телефона']},
+ {id:'aurora-dental',n:'Aurora Dental',d:'Стоматологическая клиника',tags:['Медицина','Онлайн-запись','Калькулятор'],
+  f:['Пошаговая запись: услуга, врач, время, контакты','Календарь со слотами и экспорт в .ics','Калькулятор плана лечения с рассрочкой','Слайдер «до и после», отзывы с аватарами']},
+ {id:'roastery-coffee',n:'Roastery 04',d:'Кофе по подписке',tags:['E-commerce','Подписка','Иллюстрации'],
+  f:['Конфигуратор подписки с живым пересчётом цены','Иллюстрации зёрен, воронки и пачек нарисованы SVG','Каскадные слои, контейнерные запросы, scroll-driven анимации','Оформление с проверкой полей']},
+ {id:'skillforge-course',n:'SkillForge',d:'Онлайн-курс по Python',tags:['Образование','Тарифы','Тёмная тема'],
+  f:['Тёмный дизайн с canvas-анимацией','Программа курса и таймер скидки','Тарифы с переключателем оплаты и рассрочки','Окно оплаты (демо кассы)']},
+ {id:'fluxo-watch',n:'Fluxo Watch',d:'Умные часы, предзаказ',tags:['Продукт','3D-рендер','Тема'],
+  f:['3D-рендеры часов из Blender в 4 цветах','Вращение по ракурсам и смена цвета ремешка','Светлая и тёмная тема','Форма предзаказа']}];
+const grid=document.getElementById('grid'),bar=document.getElementById('bar');
+grid.innerHTML=SITES.map((s,i)=>`<article class="card" data-tags="${s.tags.join('|')}">
+  <a class="shot" href="${s.id}/" aria-label="Открыть демо ${s.n}"><img loading="lazy" src="previews/${s.id}.jpg" alt="Превью ${s.n}" width="960" height="600"><span class="open">Открыть демо →</span></a>
+  <div class="body"><span class="num">${String(i+1).padStart(2,'0')}</span><h2>${s.n}</h2><p>${s.d}</p>
+  <div class="tags">${s.tags.map(t=>`<span>${t}</span>`).join('')}</div>
+  <ul class="feat">${s.f.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <div class="links"><a href="${s.id}/">Открыть демо</a><a href="https://github.com/neverweakness/landing-showcase/tree/main/${s.id}" target="_blank" rel="noopener">Код</a></div></div></article>`).join('')
+ +`<div class="soon"><div><b>Скоро ещё</b><p style="margin:6px 0 0">Репозиторий пополняется новыми работами.</p></div></div>`;
+document.getElementById('n').textContent=SITES.length;
+const all=['Все',...new Set(SITES.flatMap(s=>s.tags))];
+bar.innerHTML=all.map((t,i)=>`<button class="chip" aria-pressed="${i==0}" data-t="${t}">${t}</button>`).join('');
+bar.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;
+  [...bar.children].forEach(c=>c.setAttribute('aria-pressed',c==b));
+  grid.querySelectorAll('.card').forEach(c=>c.hidden=!(b.dataset.t=='Все'||c.dataset.tags.split('|').includes(b.dataset.t)));
+  grid.querySelector('.soon').hidden=b.dataset.t!='Все'});
+</script>
+</body>
+</html>

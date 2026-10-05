@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillForge: Python-курс для старта в IT</title>
+<meta name="description" content="Онлайн-курс по Python с наставником и проектами. Демо-лендинг.">
+<style>
+@property --a{syntax:"<angle>";initial-value:0deg;inherits:false}
+:root{--bg:#07060f;--card:rgba(255,255,255,.045);--line:rgba(255,255,255,.1);--ink:#f3f0ff;--mute:#a9a3cf;--p:#8b5cf6;--o:#fb923c;--g:#34d399;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI",Inter,system-ui,sans-serif;line-height:1.5;overflow-x:hidden}
+h1,h2,h3,p{margin:0}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}
+canvas#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* плавающая навигация-«пилюля» */
+.nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:40;display:flex;align-items:center;gap:6px;padding:8px 10px 8px 22px;border-radius:999px;
+  background:rgba(20,16,40,.65);backdrop-filter:blur(14px);border:1px solid var(--line);width:min(720px,calc(100% - 24px))}
+.nav b{font-size:18px;letter-spacing:-.02em;margin-right:auto}.nav b i{font-style:normal;color:var(--o)}
+.nav a.l{padding:9px 14px;border-radius:999px;color:var(--mute);font-size:14px;font-weight:600;transition:.2s}.nav a.l:hover{color:#fff;background:var(--card)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;border:0;cursor:pointer;font-weight:800;color:#1a0d00;
+  background:linear-gradient(135deg,#fdba74,#fb923c);box-shadow:0 12px 34px rgba(251,146,60,.35);transition:transform .2s}
+.btn:hover{transform:translateY(-3px)}
+.btn.sm{padding:10px 18px;font-size:14px}.btn.ghost{background:var(--card);color:#fff;box-shadow:none;border:1px solid var(--line)}
+
+.hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding:120px 0 60px}
+.hero .tag{display:inline-flex;gap:8px;align-items:center;padding:8px 16px;border-radius:999px;background:rgba(251,146,60,.12);color:#fdba74;font-weight:700;font-size:14px;margin-bottom:24px;border:1px solid rgba(251,146,60,.25)}
+.hero .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 12px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+h1{font-size:clamp(40px,7.4vw,104px);line-height:.98;letter-spacing:-.04em;max-width:15ch;margin-inline:auto;text-wrap:balance}
+h1 span{background:linear-gradient(100deg,#c4b5fd,#fb923c 60%,#fdba74);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{color:var(--mute);font-size:clamp(17px,1.6vw,21px);max-width:54ch;margin:24px auto 32px}
+.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.typed{display:inline-block;margin-top:34px;font-family:Consolas,monospace;font-size:15px;color:#c4b5fd;background:rgba(139,92,246,.12);padding:12px 18px;border-radius:14px;border:1px solid rgba(139,92,246,.3)}
+.typed::after{content:"▍";animation:blink 1s steps(1) infinite}@keyframes blink{50%{opacity:0}}
+
+/* Bento-сетка с разными по размеру плитками */
+.bento{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:minmax(150px,auto);gap:14px;
+  grid-template-areas:"a a a b b c" "a a a d e e" "f f g g h h"}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:26px;position:relative;overflow:hidden;backdrop-filter:blur(10px);container-type:inline-size;transition:transform .3s,border-color .3s}
+.tile:hover{transform:translateY(-5px);border-color:rgba(139,92,246,.55)}
+.tile h3{font-size:clamp(20px,2.2cqw + 10px,30px);letter-spacing:-.02em;margin-bottom:8px}
+.tile p{color:var(--mute);font-size:15px}
+.tile .big{font-size:clamp(44px,12cqw,84px);font-weight:900;letter-spacing:-.05em;line-height:1;background:linear-gradient(120deg,#fff,#c4b5fd);-webkit-background-clip:text;background-clip:text;color:transparent}
+.a{grid-area:a;display:flex;flex-direction:column;justify-content:space-between;min-height:340px;
+  background:radial-gradient(500px 300px at 90% 0%,rgba(139,92,246,.35),transparent 60%),var(--card)}
+.b{grid-area:b}.c{grid-area:c;display:grid;place-items:center;text-align:center}.d{grid-area:d}.e{grid-area:e}.f{grid-area:f}.g{grid-area:g}.h{grid-area:h}
+/* градиентная вращающаяся рамка */
+.glow{position:relative}
+.glow::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;background:conic-gradient(from var(--a),#8b5cf6,#fb923c,#34d399,#8b5cf6);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:rot 6s linear infinite;pointer-events:none}
+@keyframes rot{to{--a:360deg}}
+.mentor{display:flex;gap:14px;align-items:center}.mentor .ava{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,#c4b5fd,#8b5cf6);display:grid;place-items:center;font-size:30px}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.stack span{padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.07);font-size:13px;font-weight:700}
+.quote{font-size:18px;line-height:1.4}.quote small{display:block;color:var(--mute);margin-top:10px}
+
+/* вкладки программы на radio + :has() */
+.tabs{margin-top:30px}
+.tabs>input{position:absolute;opacity:0;pointer-events:none}
+.tabbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tabbar label{padding:12px 20px;border-radius:999px;background:var(--card);border:1px solid var(--line);cursor:pointer;font-weight:700;color:var(--mute);transition:.2s}
+.pane{display:none;padding:28px;border-radius:24px;background:var(--card);border:1px solid var(--line)}
+.pane h3{font-size:26px;margin-bottom:8px}.pane ul{margin:14px 0 0;padding-left:20px;color:var(--mute)}.pane li{margin:6px 0}
+.tabs:has(#t1:checked) label[for=t1],.tabs:has(#t2:checked) label[for=t2],.tabs:has(#t3:checked) label[for=t3],.tabs:has(#t4:checked) label[for=t4]{background:var(--p);color:#fff;border-color:transparent}
+.tabs:has(#t1:checked) #p1,.tabs:has(#t2:checked) #p2,.tabs:has(#t3:checked) #p3,.tabs:has(#t4:checked) #p4{display:block}
+
+/* тарифы с переключателем */
+.sw{display:inline-flex;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:999px;margin-top:18px}
+.sw button{padding:10px 20px;border-radius:999px;border:0;background:transparent;cursor:pointer;font-weight:800;color:var(--mute)}
+.sw button.on{background:var(--p);color:#fff}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.plan{padding:28px;border-radius:26px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column}
+.plan.hot{background:linear-gradient(180deg,rgba(139,92,246,.22),var(--card));border-color:var(--p)}
+.plan .price{font-size:46px;font-weight:900;letter-spacing:-.04em;margin:10px 0 2px}
+.plan .price small{font-size:16px;color:var(--mute);font-weight:600}
+.plan ul{list-style:none;padding:0;margin:16px 0 22px;color:var(--mute);flex:1}.plan li{padding:6px 0 6px 24px;position:relative}.plan li::before{content:"✔";position:absolute;left:0;color:var(--o)}
+
+.sec{padding:clamp(60px,9vw,110px) 0}
+.sec h2{font-size:clamp(32px,4.6vw,60px);letter-spacing:-.04em;margin-bottom:10px}.sec .sub{color:var(--mute);max-width:56ch;font-size:18px}
+
+dialog{border:1px solid var(--line);border-radius:28px;padding:30px;max-width:440px;width:92%;background:#12102a;color:var(--ink)}
+dialog::backdrop{background:rgba(3,2,10,.7);backdrop-filter:blur(6px)}
+dialog h3{font-size:26px}.pm{display:grid;gap:10px;margin:18px 0}
+.pm label{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:14px;border:2px solid var(--line);cursor:pointer;font-weight:700}
+.pm label:has(input:checked){border-color:var(--p);background:rgba(139,92,246,.15)}
+.pm input{accent-color:var(--p)}
+dialog input.t{width:100%;padding:14px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:#fff;margin-bottom:12px}
+footer{padding:36px 0 50px;color:var(--mute);font-size:14px;text-align:center}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s,transform .8s}.rv.in{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .bento{grid-template-columns:1fr 1fr;grid-template-areas:"a a" "b c" "d d" "e e" "f f" "g h"}
+  .plans{grid-template-columns:1fr}.nav a.l{display:none}
+}
+@media(max-width:520px){.bento{grid-template-columns:1fr;grid-template-areas:"a" "b" "c" "d" "e" "f" "g" "h"}}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none!important}.glow::before,.typed::after,.hero .tag::before{animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<nav class="nav"><b>Skill<i>Forge</i></b><a class="l" href="#bento">О курсе</a><a class="l" href="#prog">Программа</a><a class="l" href="#price">Тарифы</a><a class="btn sm" href="#price">Записаться</a></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="tag rv">Новый поток стартует в понедельник</span>
+  <h1 class="rv">Освойте <span>Python</span> и найдите первую работу в IT</h1>
+  <p class="lead rv">12 недель практики, живой наставник и шесть проектов в портфолио. Без воды и теории ради теории.</p>
+  <div class="cta rv"><a class="btn" href="#price">Выбрать тариф →</a><a class="btn ghost" href="#prog">Программа курса</a></div>
+  <div class="typed rv" id="typed"></div>
+</div></header>
+
+<section class="sec" id="bento"><div class="wrap">
+  <h2 class="rv">Всё, что нужно для старта</h2><p class="sub rv">Учим тому, что реально нужно на работе, и показываем результат на проектах.</p>
+  <div class="bento" style="margin-top:34px">
+    <div class="tile a glow rv"><div><h3>12 недель практики</h3><p>Каждая неделя заканчивается рабочим заданием: вы сразу применяете то, что узнали.</p></div><div class="big">12</div></div>
+    <div class="tile b rv"><div class="big">6</div><p style="margin-top:6px">проектов в портфолио</p></div>
+    <div class="tile c rv"><div class="big">1:1</div><p>наставник</p></div>
+    <div class="tile d rv"><div class="mentor"><div class="ava">🧑‍🏫</div><div><h3 style="margin:0">Разбор вашего кода</h3><p>Наставник отвечает в течение дня</p></div></div></div>
+    <div class="tile e rv"><h3>Что вы освоите</h3><div class="stack"><span>Python</span><span>API</span><span>Pandas</span><span>SQL</span><span>Telegram-боты</span><span>Git</span></div></div>
+    <div class="tile f rv"><p class="quote">«За три месяца собрал бота и парсер, с ними прошёл на первую стажировку».<small>Артём, выпускник (демо-отзыв)</small></p></div>
+    <div class="tile g rv"><h3>Помощь с работой</h3><p>Резюме, тестовые задания и мок-собеседования.</p></div>
+    <div class="tile h rv"><h3>Рассрочка 0%</h3><p>До 6 месяцев без переплаты.</p></div>
+  </div>
+</div></section>
+
+<section class="sec" id="prog"><div class="wrap">
+  <h2 class="rv">Программа курса</h2><p class="sub rv">Переключайте блоки, чтобы увидеть содержание.</p>
+  <div class="tabs rv">
+    <input type="radio" name="t" id="t1" checked><input type="radio" name="t" id="t2"><input type="radio" name="t" id="t3"><input type="radio" name="t" id="t4">
+    <div class="tabbar"><label for="t1">Недели 1-3</label><label for="t2">Недели 4-6</label><label for="t3">Недели 7-9</label><label for="t4">Недели 10-12</label></div>
+    <div class="pane" id="p1"><h3>Основы Python</h3><p>Фундамент, на котором строится всё остальное.</p><ul><li>Переменные, условия, циклы</li><li>Функции и коллекции</li><li>Работа с файлами</li><li>Итог: первый скрипт</li></ul></div>
+    <div class="pane" id="p2"><h3>Данные и API</h3><p>Берём данные из интернета и превращаем в полезный результат.</p><ul><li>Запросы и JSON</li><li>Парсинг сайтов</li><li>Pandas и аналитика</li><li>Итог: парсер цен</li></ul></div>
+    <div class="pane" id="p3"><h3>Боты и автоматизация</h3><p>Автоматизируем рутину и делаем полезные сервисы.</p><ul><li>Telegram-боты</li><li>Расписание задач</li><li>Базы данных SQL</li><li>Итог: бот с базой данных</li></ul></div>
+    <div class="pane" id="p4"><h3>Итоговый проект</h3><p>Свой проект под контролем наставника.</p><ul><li>Выбор идеи и план</li><li>Разработка и тесты</li><li>Защита проекта</li><li>Итог: готовый кейс для резюме</li></ul></div>
+  </div>
+</div></section>
+
+<section class="sec" id="price"><div class="wrap" style="text-align:center">
+  <h2 class="rv">Тарифы</h2><p class="sub rv" style="margin-inline:auto">Скидка 20% для записавшихся на этой неделе.</p>
+  <div class="sw rv" id="sw"><button class="on" data-m="full">Оплата сразу</button><button data-m="inst">Рассрочка 0%</button></div>
+  <div class="plans" style="text-align:left">
+    <div class="plan rv"><h3>Самостоятельный</h3><div class="price" data-p="9900">9 900 ₽</div><small style="color:var(--mute)">доступ на 6 месяцев</small><ul><li>Все уроки и задания</li><li>Чат студентов</li><li>Проверка тестов</li></ul><button class="btn ghost" data-pay="Самостоятельный|9900">Выбрать</button></div>
+    <div class="plan hot glow rv"><h3>С наставником</h3><div class="price" data-p="19900">19 900 ₽</div><small style="color:var(--mute)">самый популярный</small><ul><li>Проверка домашних заданий</li><li>Созвоны 1:1 раз в неделю</li><li>Разбор проектов</li></ul><button class="btn" data-pay="С наставником|19900">Выбрать</button></div>
+    <div class="plan rv"><h3>Под ключ</h3><div class="price" data-p="34900">34 900 ₽</div><small style="color:var(--mute)">с трудоустройством</small><ul><li>Всё из тарифа «С наставником»</li><li>Помощь с резюме и откликами</li><li>Мок-собеседования</li></ul><button class="btn ghost" data-pay="Под ключ|34900">Выбрать</button></div>
+  </div>
+</div></section>
+
+<footer>© 2026 SkillForge. Демо-проект (концепт лендинга для портфолио): курс, цены и платёжное окно вымышлены.</footer>
+
+<dialog id="dlg"><h3 id="mt">Оплата</h3><p id="ms" style="color:var(--mute);margin-top:4px"></p>
+  <div class="pm"><label><input type="radio" name="pm" checked> 💳 Банковская карта</label><label><input type="radio" name="pm"> 📱 СБП</label><label><input type="radio" name="pm"> 🧾 Рассрочка 0%</label></div>
+  <input class="t" id="em" placeholder="Ваш e-mail" type="email">
+  <button class="btn" id="go" style="width:100%;justify-content:center">Оплатить</button>
+  <p id="ok" style="display:none;margin-top:14px;text-align:center">🎉 Заявка принята! Детали отправлены на почту.</p>
+  <p style="font-size:12px;color:#7d77a8;margin-top:12px">Демо-окно. Реальная оплата подключается через кассу (ЮKassa, CloudPayments) по API.</p></dialog>
+
+<script>
+const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+/* canvas: живой градиентный «mesh» из светящихся частиц */
+const cv=document.getElementById('bg'),cx=cv.getContext('2d');let W,H,P=[];
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;P=Array.from({length:Math.min(70,Math.floor(W/22))},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*2+1}))}
+size();addEventListener('resize',size);
+function draw(){cx.clearRect(0,0,W,H);
+  const g=cx.createRadialGradient(W*.75,H*.15,0,W*.75,H*.15,W*.6);g.addColorStop(0,'rgba(139,92,246,.28)');g.addColorStop(1,'transparent');cx.fillStyle=g;cx.fillRect(0,0,W,H);
+  const g2=cx.createRadialGradient(W*.1,H*.85,0,W*.1,H*.85,W*.5);g2.addColorStop(0,'rgba(251,146,60,.16)');g2.addColorStop(1,'transparent');cx.fillStyle=g2;cx.fillRect(0,0,W,H);
+  for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fillStyle='rgba(196,181,253,.7)';cx.fill()}
+  for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y);if(d<130){cx.strokeStyle=`rgba(167,139,250,${.16*(1-d/130)})`;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}}
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)requestAnimationFrame(draw)}
+draw();
+
+/* печатающийся код */
+const lines=['>>> import requests','>>> bot.run()  # ваш первый бот на 7 неделе','>>> offer = "первая работа в IT"'];
+const t=document.getElementById('typed');let li=0,ci=0;
+function type(){if(matchMedia('(prefers-reduced-motion:reduce)').matches){t.textContent=lines[1];return}
+  const s=lines[li];t.textContent=s.slice(0,ci++);if(ci>s.length+14){li=(li+1)%lines.length;ci=0}setTimeout(type,60)}type();
+
+/* переключатель оплаты и окно оплаты */
+let mode='full';
+document.querySelectorAll('#sw button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;document.querySelectorAll('#sw button').forEach(x=>x.classList.toggle('on',x==b));
+  document.querySelectorAll('.price').forEach(p=>{const v=+p.dataset.p;p.innerHTML=mode=='full'?v.toLocaleString('ru-RU')+' ₽':Math.ceil(v/6).toLocaleString('ru-RU')+' ₽ <small>/ мес × 6</small>'})});
+const dlg=document.getElementById('dlg');
+document.querySelectorAll('[data-pay]').forEach(b=>b.onclick=()=>{const [n,p]=b.dataset.pay.split('|');mt.textContent='Оплата: '+n;
+  ms.textContent=mode=='full'?'К оплате: '+(+p).toLocaleString('ru-RU')+' ₽':'Рассрочка: '+Math.ceil(p/6).toLocaleString('ru-RU')+' ₽ × 6 мес';ok.style.display='none';dlg.showModal()});
+go.onclick=()=>{/* Здесь создаётся платёж в кассе и идёт редирект на страницу оплаты */ok.style.display='block'};
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+</script>
+</body>
+</html>
