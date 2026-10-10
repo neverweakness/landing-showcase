@@ -15,6 +15,9 @@
 | 03 | [Roastery 04](roastery-coffee) | Кофе по подписке | Конфигуратор подписки с живым пересчётом цены, иллюстрации в SVG, `@layer`, контейнерные запросы, scroll-driven анимации, оформление с проверкой | [открыть](https://neverweakness.github.io/landing-showcase/roastery-coffee/) |
 | 04 | [SkillForge](skillforge-course) | Онлайн-курс | Тёмный дизайн, canvas-анимация, программа курса, таймер скидки, тарифы и демо-окно оплаты | [открыть](https://neverweakness.github.io/landing-showcase/skillforge-course/) |
 | 05 | [Fluxo Watch](fluxo-watch) | Продукт (предзаказ) | 3D-рендеры часов из Blender в 4 цветах, вращение по ракурсам, светлая и тёмная темы, форма предзаказа | [открыть](https://neverweakness.github.io/landing-showcase/fluxo-watch/) |
+| 06 | [EMBER](ember-restaurant) | Ресторан | Меню с фильтрами и добавками, корзина с промокодами, баллами и чаевыми, доставка/самовывоз/в зале, демо-касса с чеком и трекером статуса, бронь стола с `.ics`, клуб лояльности, повтор заказа | [открыть](https://neverweakness.github.io/landing-showcase/ember-restaurant/) |
+
+Фото в EMBER — [Unsplash](https://unsplash.com) (бесплатная лицензия).
 
 ## Технологии
 
