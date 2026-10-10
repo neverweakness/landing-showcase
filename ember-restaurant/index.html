@@ -25,7 +25,8 @@
   --serif:"Playfair Display",Georgia,"Times New Roman",serif;
   --sans:Inter,"Segoe UI",system-ui,-apple-system,sans-serif;
 }
-html{scroll-behavior:smooth;scroll-padding-top:132px;-webkit-text-size-adjust:100%}
+html{scroll-padding-top:132px;-webkit-text-size-adjust:100%}
+.tools{contain:none}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--sans);overflow-x:hidden}
 img{max-width:100%;display:block}
 h1,h2,h3,p,ul,figure{margin:0}ul{padding:0;list-style:none}
@@ -55,7 +56,7 @@ section{padding-block:clamp(56px,8vw,110px)}
 @keyframes flash{0%,40%{box-shadow:0 0 0 3px var(--fire),0 0 40px 6px rgba(255,106,26,.45)}100%{box-shadow:0 0 0 0 transparent}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.reveal{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 
 /* header */
 .top{position:sticky;top:0;z-index:40;background:rgba(20,16,13,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
@@ -112,10 +113,11 @@ section{padding-block:clamp(56px,8vw,110px)}
 
 /* menu */
 .menuhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:end}
-.tools{position:sticky;top:68px;z-index:30;background:rgba(20,16,13,.92);backdrop-filter:blur(12px);margin-top:28px;padding-block:12px;border-bottom:1px solid var(--line)}
+.tools{position:sticky;top:68px;z-index:30;background:rgba(20,16,13,.92);backdrop-filter:blur(12px);margin-top:14px;padding-block:12px;border-bottom:1px solid var(--line)}
 .tools .row{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .tools .row::-webkit-scrollbar{display:none}
-.tools .row+.row{margin-top:10px}
+.sf{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;margin-top:26px}.sf::-webkit-scrollbar{display:none}
+.sf .search{flex:0 0 min(260px,70vw)}
 .search{flex:0 0 min(260px,100%);position:relative}
 .search input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:9px 16px 9px 38px;font-size:14px}
 .search svg{position:absolute;left:13px;top:50%;translate:0 -50%;width:16px;height:16px;color:var(--mute)}
@@ -422,13 +424,11 @@ dialog[open]{animation:dlg .3s}
     <div><span class="eyebrow">Меню</span><h2 class="h2">Выберите свой огонь</h2></div>
     <p class="lead" style="margin:0">Нажмите на блюдо, чтобы увидеть состав, КБЖУ и добавки: прожарку, соус, гарнир.</p>
   </div>
-  <div class="tools">
-    <div class="row" id="cats"></div>
-    <div class="row">
-      <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="Найти блюдо" aria-label="Поиск по меню"></label>
-      <div class="row" id="filters" style="margin:0"></div>
-    </div>
+  <div class="row sf">
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="q" type="search" placeholder="Найти блюдо" aria-label="Поиск по меню"></label>
+    <div class="row" id="filters" style="margin:0"></div>
   </div>
+  <div class="tools"><div class="row" id="cats"></div></div>
   <div id="menuList"></div>
 </div></section>
 
@@ -670,7 +670,7 @@ $('#menuList').addEventListener('click',e=>{
   const a=e.target.closest('[data-add]');if(a){const m=byId(a.dataset.add);m.mods?openItem(m.id):(addLine(m,[],1),toast('Добавлено: '+m.n));return}
   const o=e.target.closest('[data-open]');if(o)openItem(o.dataset.open)});
 const catIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){$$('#cats .chip').forEach(c=>c.classList.toggle('on',c.dataset.cat===e.target.id.slice(4)));
-  const row=$('#cats'),on=$('#cats .on');if(on)row.scrollTo({left:on.offsetLeft-(row.clientWidth-on.offsetWidth)/2,behavior:'smooth'})}}),{rootMargin:'-25% 0px -65% 0px'});
+  const row=$('#cats'),on=$('#cats .on');if(on){const l=on.offsetLeft,r=l+on.offsetWidth;if(l<row.scrollLeft||r>row.scrollLeft+row.clientWidth)row.scrollLeft=l-(row.clientWidth-on.offsetWidth)/2}}}),{rootMargin:'-25% 0px -65% 0px'});
 new MutationObserver(()=>$$('.cat').forEach(c=>catIO.observe(c))).observe($('#menuList'),{childList:true});$$('.cat').forEach(c=>catIO.observe(c));
 
 /* ───────── КАРТОЧКА БЛЮДА ───────── */
@@ -871,12 +871,24 @@ $('#rev').innerHTML=REVIEWS.map(r=>`<article class="rv reveal"><div class="st">$
 $$('#rev .reveal').forEach(e=>io.observe(e));
 $('#subForm').onsubmit=e=>{e.preventDefault();const i=e.target.email;if(!/^\S+@\S+\.\S+$/.test(i.value)){toast('Проверьте e-mail');i.focus();return}i.value='';toast('Спасибо! Первое письмо уже в пути')};
 
-/* CTA: прокрутка + подсветка цели */
-document.addEventListener('click',e=>{const a=e.target.closest('[data-go]');if(!a)return;e.preventDefault();
-  const t=document.getElementById(a.dataset.go),sec=document.querySelector(a.getAttribute('href'));
-  const y=(sec.querySelector('.h2')||sec).getBoundingClientRect().top+scrollY-(a.dataset.go==="cats"?150:90);
-  scrollTo({top:y,behavior:'smooth'});
-  setTimeout(()=>{t.classList.remove('flash');void t.offsetWidth;t.classList.add('flash');if(a.dataset.go==='bookForm')toast('Выберите день и время');else toast('Выберите блюдо и нажмите +')},550)});
+/* Прокрутка к якорям: свой tween, цель пересчитывается каждый кадр (устойчиво к подгрузке картинок и панели Safari) */
+let scrollRaf=0;
+function goTo(el,extra=0){cancelAnimationFrame(scrollRaf);
+  const off=()=>$('.top').offsetHeight+extra+(el.closest('#menu')&&!el.closest('.menuhead')?$('.tools').offsetHeight:0)+8;
+  const from=scrollY,t0=performance.now(),dur=650;
+  const stop=()=>cancelAnimationFrame(scrollRaf);
+  ['wheel','touchstart','keydown'].forEach(ev=>addEventListener(ev,stop,{once:true,passive:true}));
+  const step=now=>{const k=Math.min(1,(now-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+    const to=Math.max(0,el.getBoundingClientRect().top+scrollY-off());scrollTo(0,from+(to-from)*e);
+    if(k<1)scrollRaf=requestAnimationFrame(step);else scrollTo(0,to)};
+  scrollRaf=requestAnimationFrame(step)}
+function flash(t){t.classList.remove('flash');void t.offsetWidth;t.classList.add('flash')}
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||a.getAttribute('href')==='#')return;
+  const el=document.querySelector(a.getAttribute('href'));if(!el)return;e.preventDefault();
+  const h=a.getAttribute('href'),go=a.dataset.go,target=go?el.querySelector('.menuhead,.h2')||el:(el.id==='top'?el:el.matches('section')?el.querySelector('.h2')||el:el);
+  if(el.id==='top'){scrollTo(0,0);return}
+  goTo(target,go?8:0);
+  if(go){setTimeout(()=>{flash($('#'+go));toast(go==='bookForm'?'Выберите день и время':'Выберите блюдо и нажмите +')},700)}});
 /* ───────── СТАРТ ───────── */
 renderCartMeta();renderClub();
 </script>
